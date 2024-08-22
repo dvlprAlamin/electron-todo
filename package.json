@@ -1,9 +1,9 @@
 {
-  "name": "quick-start-electron-2",
+  "name": "electron-todo",
   "version": "1.0.0",
   "description": "An Electron application with React and TypeScript",
   "main": "./out/main/index.js",
-  "author": "example.com",
+  "author": "Alamin Howlader",
   "homepage": "https://electron-vite.org",
   "scripts": {
     "format": "prettier --write .",

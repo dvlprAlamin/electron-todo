@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delta Updater</title>
+    <style>
+        html,
+        body {
+            background: #2f3542;
+            font-family: "Maison Neue", sans-serif;
+            font-size: 16px;
+            line-height: 24px;
+            color: #f1f2f6;
+            overflow: hidden;
+        }
+
+        #container {
+            position: absolute;
+            display: flex;
+            width: 100%;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            left: 50%;
+            top: 50%;
+            padding: 10px;
+            transform: translate(-50%, -50%);
+        }
+
+        #status {
+            line-height: 20px;
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+
+<body style="-webkit-app-region: drag">
+    <div id="container">
+        <div id="status">Checking for update</div>
+        <progress id="progressBar" max="100" value="0" style="display: none;"></progress>
+    </div>
+    <script>
+        const MAIN_MESSAGE = '@electron-delta-update/updater:main';
+        const statusDom = document.getElementById("status");
+        const progressBar = document.getElementById("progressBar");
+
+        window.addEventListener(MAIN_MESSAGE, (event) => {
+            const data = event.detail;
+            const { eventName, payload } = data;
+
+            switch (eventName) {
+                case 'checking-for-update':
+                    statusDom.textContent = "Checking for update...";
+                    break;
+                case 'update-available':
+                    statusDom.textContent = "Starting download...";
+                    progressBar.style.display = 'block';
+                    break;
+                case 'update-not-available':
+                    statusDom.textContent = "Starting app...";
+                    break;
+                case 'error':
+                    statusDom.textContent = "Something went wrong!";
+                    break;
+                case 'download-progress':
+                    const { percentage, transferred, total } = payload;
+                    progressBar.value = percentage;
+                    statusDom.textContent = `Downloading ${percentage}% | ${transferred} / ${total}`;
+                    break;
+                case 'update-downloaded':
+                    statusDom.textContent = "Installing...";
+                    break;
+                default:
+                    statusDom.textContent = "Starting app...";
+            }
+        });
+
+    </script>
+</body>
+
+</html>

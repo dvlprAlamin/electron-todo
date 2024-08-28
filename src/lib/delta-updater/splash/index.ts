@@ -1,8 +1,8 @@
-import { BrowserWindow } from 'electron';
-import path from 'path';
-import { pathToFileURL } from 'url';
+import { BrowserWindow } from 'electron'
+import path from 'path'
+import { pathToFileURL } from 'url'
 
-const MAIN_MESSAGE = '@electron-delta-update/updater:main';
+const MAIN_MESSAGE = '@electron-delta-update/updater:main'
 
 const getWindow = (): BrowserWindow =>
   new BrowserWindow({
@@ -23,12 +23,13 @@ const getWindow = (): BrowserWindow =>
       // enableRemoteModule: false,
       disableBlinkFeatures: 'Auxclick',
       sandbox: true,
-      preload: path.join(__dirname, 'preload.js'),
-    },
-  });
+      preload: path.join(__dirname, 'preload.js')
+    }
+  })
 
 function getStartURL(): string {
-  return pathToFileURL(path.join(__dirname, 'splash.html')).toString();
+  return pathToFileURL('./splash/splash.html').toString()
+  // return pathToFileURL(path.join(__dirname, 'splash.html')).toString()
 }
 
 function dispatchEvent(
@@ -37,8 +38,8 @@ function dispatchEvent(
   payload?: any
 ): void {
   if (updaterWindow && !updaterWindow.isDestroyed()) {
-    updaterWindow.webContents.send(MAIN_MESSAGE, { eventName, payload });
+    updaterWindow.webContents.send(MAIN_MESSAGE, { eventName, payload })
   }
 }
 
-export { getWindow, getStartURL, dispatchEvent };
+export { getWindow, getStartURL, dispatchEvent }

@@ -11,7 +11,7 @@ import { downloadFile, niceBytes } from './download'
 import { getGithubFeedURL } from './github-provider'
 import { getGenericFeedURL } from './generic-provider'
 import { newBaseUrl, newUrlFromBase } from './utils'
-import { getStartURL, getWindow, dispatchEvent } from './splash'
+import { getWindow, dispatchEvent } from './splash'
 
 const { app, BrowserWindow, Notification } = electron
 const oneMinute = 60 * 1000
@@ -373,9 +373,9 @@ class DeltaUpdater extends EventEmitter {
     }
 
     if (splashScreen) {
-      const startURL = getStartURL()
+      //   const startURL = getStartURL()
       this.createSplashWindow()
-      this.updaterWindow.loadURL(startURL)
+      this.updaterWindow.loadFile('./splash/splash.html')
     }
     return new Promise((resolve, reject) => {
       this.attachListeners(resolve, reject)

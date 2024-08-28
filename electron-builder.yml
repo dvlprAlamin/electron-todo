@@ -16,12 +16,12 @@ win:
   target: nsis-web
 nsis:
   artifactName: ${name}-${version}-setup.${ext}
-  oneClick: false
-  perMachine: true
-  allowToChangeInstallationDirectory: true
-  runAfterFinish: true
-  deleteAppDataOnUninstall: true
-  differentialPackage: true
+  # oneClick: false
+  # perMachine: true
+  # allowToChangeInstallationDirectory: true
+  # runAfterFinish: true
+  # deleteAppDataOnUninstall: true
+  # differentialPackage: true
   shortcutName: ${productName}
   uninstallDisplayName: ${productName}
   createDesktopShortcut: always

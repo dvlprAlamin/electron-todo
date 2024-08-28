@@ -2,7 +2,7 @@ import { app, shell, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
-
+// import DeltaUpdater from "./../lib/delta-updater"
 // Set application name for Windows 10+ notifications
 if (process.platform === 'win32') app.setAppUserModelId(app.getName())
 
@@ -51,7 +51,7 @@ function createWindow(): void {
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.whenReady().then(() => {
+app.whenReady().then(async () => {
   // Set app user model id for windows
   electronApp.setAppUserModelId('com.electron')
 
@@ -67,6 +67,20 @@ app.whenReady().then(() => {
   ipcMain.handle('get-version', () => {
     return app.getVersion()
   })
+
+  // const deltaUpdater = new DeltaUpdater({
+  //   // logger,
+  //   // autoUpdater: require("electron-updater").autoUpdater,
+  //   // hostURL: "you can mention the host url or it's computed from app-update.yml file"
+  //   // hostURL: "http://localhost:3000",
+  // });
+  // try {
+  //   await deltaUpdater.boot({
+  //     splashScreen: true
+  //   });
+  // } catch (error) {
+  //   // logger.error(error);
+  // }
   createWindow()
 })
 

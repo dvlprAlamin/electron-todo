@@ -1,4 +1,4 @@
-import { contextBridge } from 'electron'
+import { contextBridge, ipcRenderer } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
 
 // Custom APIs for renderer
@@ -20,3 +20,14 @@ if (process.contextIsolated) {
   // @ts-ignore (define in dts)
   window.api = api
 }
+
+const replaceText = (selector, text) => {
+  const element = document.getElementById(selector)
+  if (element) element.innerText = text
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  ipcRenderer.invoke('get-version').then((data) => {
+    replaceText('app-version', data)
+  })
+})

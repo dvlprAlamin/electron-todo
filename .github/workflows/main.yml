@@ -17,13 +17,13 @@ jobs:
         with:
           node-version: "18"
           architecture: "x64"
-      - name: pnpm install
-        run: pnpm install --frozen-lockfile
+      - name: yarn install
+        run: yarn install --frozen-lockfile
       - name: configure git
         run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
       - name: build and release
-        run: pnpm release:win
+        run: yarn release:win
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}

@@ -1,0 +1,29 @@
+name: Release to github
+
+on:
+  push:
+    branches: [delta]
+  workflow_dispatch:
+
+jobs:
+  release-win: 
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+          architecture: "x64"
+      - name: pnpm install
+        run: pnpm install --frozen-lockfile
+      - name: configure git
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+      - name: build and release
+        run: pnpm release:win
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}

@@ -1,20 +1,13 @@
 import Versions from './components/Versions'
-import electronLogo from './assets/electron.svg'
+import UpdateManager from './components/UpdateManager'
 
 function App(): JSX.Element {
   const ipcHandle = (): void => window.electron.ipcRenderer.send('ping')
 
   return (
     <>
-      <img alt="logo" className="logo" src={electronLogo} />
-      <div className="creator">Powered by electron-vite</div>
-      <div className="text">
-        Build an Electron app with <span className="react">React</span>
-        &nbsp;and <span className="ts">TypeScript</span>
-      </div>
-      <p className="tip">
-        Please try pressing <code>F12</code> to open the devTool
-      </p>
+      <UpdateManager />
+
       <div className="actions">
         <div className="action">
           <a href="https://electron-vite.org/" target="_blank" rel="noreferrer">
@@ -27,6 +20,14 @@ function App(): JSX.Element {
           </a>
         </div>
       </div>
+      <p>
+        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Omnis sint repudiandae officia
+        deserunt expedita adipisci eligendi saepe hic unde doloribus commodi voluptas cum alias
+        fugiat, tempora id! Harum dignissimos laborum rem natus possimus nobis facilis repellat
+        adipisci molestiae, nisi fuga nihil perferendis distinctio dicta ea quis sequi quasi
+        placeat, perspiciatis veritatis blanditiis obcaecati inventore. Aperiam quas, odio, eos
+        soluta minima tempore maxime numquam sed at cumque, cupiditate libero ea debitis ducimus hic
+      </p>
       <Versions></Versions>
     </>
   )

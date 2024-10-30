@@ -3,7 +3,6 @@ import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 import { autoUpdater } from 'electron-updater'
-import setupAutoUpdater from './autoUpdater'
 
 // Set application name for Windows 10+ notifications
 if (process.platform === 'win32') app.setAppUserModelId(app.getName())
@@ -50,39 +49,6 @@ function createWindow(): void {
   }
 }
 
-// Auto Updates
-const sendStatusToWindow = (text: string): void => {
-  if (!mainWindow) return
-  mainWindow.webContents.send('message', text)
-}
-
-autoUpdater.on('checking-for-update', () => {
-  sendStatusToWindow('Checking for update...')
-})
-
-autoUpdater.on('update-available', (info) => {
-  sendStatusToWindow(`Update available: ${info.version}`)
-})
-
-autoUpdater.on('update-not-available', () => {
-  sendStatusToWindow('Update not available.')
-})
-
-autoUpdater.on('error', (err) => {
-  sendStatusToWindow('Error in auto-updater. ' + err)
-})
-
-autoUpdater.on('download-progress', (progressObj) => {
-  let log_message = 'Download speed: ' + progressObj.bytesPerSecond
-  log_message = log_message + ' - Downloaded ' + progressObj.percent + '%'
-  log_message = log_message + ' (' + progressObj.transferred + '/' + progressObj.total + ')'
-  sendStatusToWindow(log_message)
-})
-
-autoUpdater.on('update-downloaded', () => {
-  sendStatusToWindow('Update downloaded')
-})
-
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
@@ -99,22 +65,13 @@ app.whenReady().then(() => {
 
   // IPC test
   ipcMain.on('ping', () => console.log('pong'))
-  ipcMain.on('app_version', (event) => {
-    event.sender.send('app_version', { version: app.getVersion() })
-  })
-  // Handle download update request
-  ipcMain.on('download_update', () => {
-    if (autoUpdater) {
-      autoUpdater.downloadUpdate()
-    }
-  })
-
-  ipcMain.on('restart_app', () => {
-    autoUpdater.quitAndInstall()
-  })
 
   createWindow()
-  setupAutoUpdater(mainWindow)
+  // Determine channel based on app version
+  const version = app.getVersion()
+  const channel = version.includes('beta') ? 'beta' : 'latest'
+  autoUpdater.channel = channel
+  autoUpdater.checkForUpdatesAndNotify()
 })
 
 app.on('second-instance', () => {

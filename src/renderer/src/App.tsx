@@ -1,13 +1,10 @@
 import Versions from './components/Versions'
-import UpdateManager from './components/UpdateManager'
 
 function App(): JSX.Element {
   const ipcHandle = (): void => window.electron.ipcRenderer.send('ping')
 
   return (
     <>
-      <UpdateManager />
-
       <div className="actions">
         <div className="action">
           <a href="https://electron-vite.org/" target="_blank" rel="noreferrer">

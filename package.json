@@ -1,6 +1,6 @@
 {
   "name": "electron-todo",
-  "version": "2.0.1",
+  "version": "3.0.1",
   "description": "An Electron application with React and TypeScript",
   "main": "./out/main/index.js",
   "author": "Alamin Howlader",
